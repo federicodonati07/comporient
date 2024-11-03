@@ -15,7 +15,10 @@ const NavBar = () => {
                     className="sm:hidden"
                     />
                     <NavbarBrand>
-                    <h1 className="font-bold text-inherit font-poppins text-large">COMPORIENT</h1>
+                        <Link color='foreground' href="/">
+                            <h1 className="font-bold text-inherit font-poppins text-large">COMPORIENT</h1>
+                        </Link>
+                        
                     </NavbarBrand>
                 </NavbarContent>
 
@@ -35,13 +38,13 @@ const NavBar = () => {
 
                 <NavbarContent justify="end">
                     <NavbarItem className="hidden lg:flex">
-                        <Link color="foreground" href="#" className='font-lora underline'>
+                        <Link color="foreground" href="/access" className='font-lora underline'>
                             Login
                         </Link>
                         
                     </NavbarItem>
                     <NavbarItem>
-                        <Link color="foreground" href="#" className='font-lora'>
+                        <Link color="foreground" href="/access" className='font-lora'>
                             <Button className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'>
                                 Signup
                             </Button>
