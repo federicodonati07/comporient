@@ -1,11 +1,49 @@
 'use client'
 import React from 'react'
-import { useState } from 'react';
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, Link, Button} from "@nextui-org/react";
+import { useState, useEffect } from 'react';
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, Link, Button, Avatar, Tooltip} from "@nextui-org/react";
 import { BsStars } from "react-icons/bs";
+import supabase from '@/src/supabase/clinet';
+import { useRouter } from 'next/navigation';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 const NavBar = () => {
+
+    const router = useRouter()
+
+    const [session, setSession] = useState(false)
+    const [fullname, setFullName] = useState("")
+    const [email, setEmail] = useState("")
+    const [avatar_url, setAvatarUrl] = useState("")
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const handleLogout = async()=>{
+        const {} = await supabase.auth.signOut();
+        window.location.reload();
+    }
+
+    const handleAccount = ()=>{
+        router.push("/protected/private");
+    }
+
+    useEffect(()=>{
+        const getSession = async ()=>{
+        const {data: {session}} = await supabase.auth.getSession()
+
+            if(session == null){
+                setSession(false)
+            }else{
+                setAvatarUrl(session?.user.user_metadata.avatar_url)
+                setEmail(session?.user.user_metadata.email)
+                setFullName(session?.user.user_metadata.full_name)
+                setSession(true)
+            }
+
+            
+        }
+        getSession()
+    }, [setAvatarUrl, setFullName, setEmail])
+
     return (
         <>
             <Navbar onMenuOpenChange={setIsMenuOpen} className='border-b border-white'>
@@ -37,30 +75,62 @@ const NavBar = () => {
                 </NavbarContent>
 
                 <NavbarContent justify="end">
-                    <NavbarItem className="hidden lg:flex">
-                        <Link color="foreground" href="/access" className='font-lora underline'>
-                            Login
-                        </Link>
-                        
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link color="foreground" href="/access" className='font-lora'>
-                            <Button className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'>
-                                Signup
-                            </Button>
-                        </Link>
-                    </NavbarItem>
+                    {session ? (
+                        <>
+                            <NavbarItem className='hidden sm:flex'>
+                                <Button radius="full" variant="ghost" onClick={handleLogout}>
+                                    <IoMdArrowRoundBack />
+                                    <span className='font-roboto font-bold'>Logout</span>
+                                </Button>
+                            </NavbarItem>
+                            <NavbarItem className='hidde lg:flex'>
+                                <Tooltip showArrow={true} content={
+                                    <>
+                                        <span className='font-poppins font-bold'>{fullname}</span>
+                                        <span className='font-poppins font-roboto text-sm'>{email}</span>
+                                    </>
+                                }>
+                                    <Avatar src={avatar_url} size="md" className="cursor-pointer hover:border hover:border-gray-400" onClick={handleAccount}/>
+                                </Tooltip>
+                            </NavbarItem>
+                        </>
+                    ) : (
+                        <>
+                            <NavbarItem className="hidden sm:flex">
+                                <Link color="foreground" href="/access" className='font-lora underline'>
+                                    Login
+                                </Link>
+                                
+                            </NavbarItem>
+                            <NavbarItem>
+                                <Link color="foreground" href="/access" className='font-lora'>
+                                    <Button className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'>
+                                        Signup
+                                    </Button>
+                                </Link>
+                            </NavbarItem>
+                        </>
+                    )}
+                    
                 </NavbarContent>
 
                 <NavbarMenu className='border-t border-white'> {/* small width screen */}
-                    <NavbarItem className='space-x-2'>
-                        
-                    </NavbarItem>
+                    {session ? (
+                        <>
+                            <NavbarItem className='space-x-2 block sm:hidden' onClick={handleLogout}>
+                                <span className='font-roboto text-lg text-red-400'>Logout</span>
+                            </NavbarItem>
+                        </>
+                    ):(
+                        ""
+                    )}
                     <NavbarItem>
                         <Link color="foreground" href="#" className='font-lora'>
                             <span className='font-roboto'>Who are we?</span>
                         </Link>
                     </NavbarItem>
+                    
+                    
                 </NavbarMenu>
                 </Navbar>
         </>
