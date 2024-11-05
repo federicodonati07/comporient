@@ -5,7 +5,7 @@ import Main from '@/components/home/main'
 const page = () => {
   return (
     <>
-      <div className='w-screen h-screen overflow-hidden'>
+      <div className='w-screen h-screen overflow-y-auto md:overflow-hidden'>
         <NavBar></NavBar>
         <Main></Main>
       </div>
