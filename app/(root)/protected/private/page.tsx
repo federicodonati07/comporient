@@ -4,7 +4,7 @@ import Main from '@/components/protected/private/main'
 const page = () => {
   return (
     <>
-        <div className='flex flex-col items-center justify-top text-center w-full h-screen overflow-hidden'>
+        <div className='flex flex-col items-center justify-top text-center w-full h-screen overflow-y-auto md:overflow-hidden'>
           <Main></Main>
         </div>
     </>

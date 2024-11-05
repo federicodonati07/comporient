@@ -1,34 +1,39 @@
-import React, { useState } from 'react'
-import { Avatar, Card, CardBody, CardFooter, Divider, Popover, PopoverTrigger, PopoverContent, Button, Input } from '@nextui-org/react'
-import { FaGithub } from "react-icons/fa"
+import React, { useState } from 'react';
+import { Avatar, Card, CardBody, CardFooter, Divider, Popover, PopoverTrigger, PopoverContent, Button, Input } from '@nextui-org/react';
+import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { CiLogout } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import supabase from '@/src/supabase/clinet';
 import supabaseAdmin from '@/src/supabase/adminClient';
-import { useRouter } from 'next/navigation';
 
-const Profile = ({ fullname, email, avatar_url, provider, uid }) => {
+interface ProfileProps {
+    fullname: string;
+    email: string;
+    avatar_url: string;
+    provider: string;
+    uid: string;
+}
+
+const Profile: React.FC<ProfileProps> = ({ fullname, email, avatar_url, provider, uid }) => {
     const [confirmInput, setConfirmInput] = useState('');
     const [isInvalid, setIsInvalid] = useState(false);
-    const router = useRouter()
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
         window.location.reload();
-    }
+    };
 
-    const handleDeleteAccount = async() => {
+    const handleDeleteAccount = async () => {
         const confirmationText = `${email}/${fullname}`;
         if (confirmInput === confirmationText) {
             console.log("success");
-            const {data} = await supabaseAdmin.auth.admin.deleteUser(
-                '715ed5db-f090-4b8c-a067-640ecee36aa0'
-            )
+            await supabase.auth.signOut();
+            const { data } = await supabaseAdmin.auth.admin.deleteUser(uid);
             
-            if(data){
-                router.push("/")
-            }else{
+            if (data) {
+                window.location.reload();
+            } else {
                 setIsInvalid(true);
             }
             
@@ -45,11 +50,11 @@ const Profile = ({ fullname, email, avatar_url, provider, uid }) => {
                 <div className='flex flex-col justify-center items-center text-center'>
                     <div className='flex flex-row justify-center items-center text-center mt-5 space-x-4'>
                         <Avatar src={avatar_url} size="lg" name={fullname} className='outline outline-gray-400' />
-                        <span className={`font-poppins font-bold text-xl ${provider === "google" ? "text-blue-600" : provider === "github" ? "text-purple-600" : null}`}>. . .</span>
+                        <span className={`font-poppins font-bold text-xl ${provider === "google" ? "text-blue-600" : provider === "github" ? "text-purple-600" : ""}`}>. . .</span>
                         <Avatar
                             size="md"
-                            icon={provider === "google" ? (<FcGoogle className='text-lg'/>) : provider === "github" ? (<FaGithub className='text-lg'/>) : null}
-                            className={`${provider === "google" ? "outline outline-blue-600 bg-blue-600/25" : provider === "github" ? "outline outline-purple-600 bg-purple-600/25" : null}`}
+                            icon={provider === "google" ? (<FcGoogle className='text-lg'/>) : provider === "github" ? (<FaGithub className='text-lg'/>) : undefined}
+                            className={`${provider === "google" ? "outline outline-blue-600 bg-blue-600/25" : provider === "github" ? "outline outline-purple-600 bg-purple-600/25" : ""}`}
                         />
                     </div>
                     <div className='flex flex-row mx-2 my-5'>
@@ -125,7 +130,7 @@ const Profile = ({ fullname, email, avatar_url, provider, uid }) => {
                 </CardFooter>
             </CardBody>
         </Card>
-    )
-}
+    );
+};
 
 export default Profile;

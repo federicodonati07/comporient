@@ -5,6 +5,7 @@ import { IoMdArrowRoundBack } from 'react-icons/io'
 import supabase from '@/src/supabase/clinet'
 import { useRouter } from 'next/navigation'
 import Profile from './profile'
+import Plans from './plans'
 
 const Main = () => {
   const router = useRouter()
@@ -76,7 +77,7 @@ const Main = () => {
             </Tab>
             <Tab title="Plans">
               <div>
-                {/* Contenuto del tab "Plans" */}
+                <Plans></Plans>
               </div>
             </Tab>
           </Tabs>
