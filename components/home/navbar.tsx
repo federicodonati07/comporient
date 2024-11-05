@@ -5,7 +5,8 @@ import {Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Navbar
 import { BsStars } from "react-icons/bs";
 import supabase from '@/src/supabase/clinet';
 import { useRouter } from 'next/navigation';
-import { IoMdArrowRoundBack } from 'react-icons/io';
+import { CiLogout } from 'react-icons/ci';
+
 
 const NavBar = () => {
 
@@ -79,7 +80,7 @@ const NavBar = () => {
                         <>
                             <NavbarItem className='hidden sm:flex'>
                                 <Button radius="full" variant="ghost" onClick={handleLogout}>
-                                    <IoMdArrowRoundBack />
+                                    <CiLogout className='font-bold text-xl'/>
                                     <span className='font-roboto font-bold'>Logout</span>
                                 </Button>
                             </NavbarItem>
