@@ -1,8 +1,21 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, Divider, Button } from '@nextui-org/react';
 import { MdWorkspacePremium } from "react-icons/md";
+import { useRouter } from 'next/navigation';
 
 const Plans = () => {
+  const router = useRouter();
+
+  const handleRedirectPlansPayments0 = ()=>{
+    router.push("/payments?type=0")
+  }
+  const handleRedirectPlansPayments1 = ()=>{
+    router.push("/payments?type=1")
+  }
+  const handleRedirectPlansPayments2 = ()=>{
+    router.push("/payments?type=2")
+  }
+
   return (
     <div className="flex flex-col md:flex-row justify-center items-center text-center h-full w-screen space-y-8 md:space-y-0 md:space-x-5 py-10 px-4 ">
       {/** Daily Plan */}
@@ -22,7 +35,7 @@ const Plans = () => {
           </div>
           
           <div className='mt-10'>
-            <Button className='bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 w-full'>
+            <Button onClick={handleRedirectPlansPayments0} className='bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 w-full'>
                 <span className='font-poppins text-xl font-bold'>Subscribe Now</span>
             </Button>
           </div>
@@ -45,7 +58,7 @@ const Plans = () => {
             </span>
           </div>
           <div className='mt-10'>
-            <Button className='bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-400 w-full'>
+            <Button onClick={handleRedirectPlansPayments1} className='bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-400 w-full'>
                 <span className='font-poppins text-xl font-bold'>Subscribe Now</span>
             </Button>
           </div>
@@ -72,7 +85,7 @@ const Plans = () => {
             </span>
           </div>
           <div className='mt-10'>
-            <Button className='bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 w-full'>
+            <Button onClick={handleRedirectPlansPayments2} className='bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 w-full'>
                 <span className='font-poppins text-xl font-bold'>Subscribe Now</span>
             </Button>
           </div>
