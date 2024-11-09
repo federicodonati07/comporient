@@ -1,9 +1,9 @@
 "use client"
-import React from 'react'
+import React, { Suspense } from 'react'
 import Payments from '@/components/payments/payments'
 import { useSearchParams } from 'next/navigation'
 
-const Page = () => {
+const PageContent = () => {
   const searchParams = useSearchParams();
   
   const typeString = searchParams.get('type');
@@ -13,6 +13,14 @@ const Page = () => {
 
   return (
     <Payments type={typeParsed} amount={amount} />
+  );
+};
+
+const Page = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PageContent />
+    </Suspense>
   );
 };
 
