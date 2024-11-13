@@ -1,10 +1,11 @@
 "use client";
+import { Suspense } from "react";
 import { Button } from "@nextui-org/react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-export default function PaymentSuccess() {
+function PaymentSuccessContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const amount = searchParams.get("amount");
@@ -50,7 +51,7 @@ export default function PaymentSuccess() {
                         ${amount}
                     </span>
                 </div>
-                <div>
+                <div className="mt-10">
                     <Button radius="full" variant="bordered" onClick={handleBack}>
                         <IoMdArrowRoundBack className="font-bold text-xl text-black" />
                         <span className="font-roboto font-bold text-black">Back</span>
@@ -58,5 +59,13 @@ export default function PaymentSuccess() {
                 </div>
             </form>
         </div>
+    );
+}
+
+export default function PaymentSuccess() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <PaymentSuccessContent />
+        </Suspense>
     );
 }
