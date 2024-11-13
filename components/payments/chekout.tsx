@@ -51,7 +51,7 @@ const CheckOut = ({amount, type}: {amount: number, type:number}) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: "http://localhost:3000/protected/private"
+        return_url: `http://localhost:3000/payments/payments-success?type=${type}&amount=${amount}`
       }
     })
 
